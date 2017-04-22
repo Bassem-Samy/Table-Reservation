@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity implements CustomersFragment
     }
 
     @Override
-    public void onCustomerClicked() {
+    public void onCustomerClicked(String customerName) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.frm_container, TablesFragment.newInstance("Bassem"), TablesFragment.TAG)
+                .add(R.id.frm_container, TablesFragment.newInstance(customerName), TablesFragment.TAG)
                 .addToBackStack(null)
                 .commit();
 

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bassem.tablereservation.R;
@@ -41,10 +42,14 @@ public class TablesFragment extends Fragment implements TablesView {
     String generalError;
     @BindString(R.string.got_offline_data)
     String gotOfflineData;
+    @BindString(R.string.reserve_table_for)
+    String reserveTableFor;
     @BindView(R.id.prgrs_tables)
     ProgressBar tablesProgressBar;
     @BindView(R.id.rclr_tables)
     RecyclerView tablesRecyclerView;
+    @BindView(R.id.txt_for_customer)
+    TextView forCustomerTextView;
     @BindInt(R.integer.tables_column_span_count)
     int columnSpanCount;
     GridLayoutManager mGridLayoutManager;
@@ -82,6 +87,7 @@ public class TablesFragment extends Fragment implements TablesView {
         super.onActivityCreated(savedInstanceState);
         mPresenter = new TablesPresenterImpl(this, new TablesInteractorImpl(new DatabaseHelper(Realm.getDefaultInstance())));
         mPresenter.getCustomers();
+        forCustomerTextView.setText(reserveTableFor+" "+mCustomerName);
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -85,12 +86,15 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_customers, container, false);
         ButterKnife.bind(this, view);
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         mPresenter = new CustomersListingPresenterImpl(this, new CustomersListingInteractorImpl(new DatabaseHelper(Realm.getDefaultInstance())));
         mPresenter.getCustomers();
         initializeFilterTextObservables();
@@ -199,7 +203,7 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
             Customer model = mAdapter.getItemByPosition(position);
             Toast.makeText(getContext(), model.getFullName(), Toast.LENGTH_SHORT).show();
             if (mListener != null) {
-                mListener.onCustomerClicked();
+                mListener.onCustomerClicked(model.getFullName());
             }
 
         }
@@ -252,6 +256,6 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
     }
 
     public interface OnCustomersFragmentInteractionListener {
-        void onCustomerClicked();
+        void onCustomerClicked(String customerName);
     }
 }

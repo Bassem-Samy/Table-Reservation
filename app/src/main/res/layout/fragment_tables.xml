@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="@dimen/tables_grid_horizontal_padding"
+    android:paddingRight="@dimen/tables_grid_horizontal_padding"
     tools:context="com.bassem.tablereservation.ui.tables.TablesFragment"
     android:background="@color/colorMainBakground">
 
@@ -10,7 +12,9 @@
     <TextView
         android:id="@+id/txt_for_customer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/reservation_title_vertical_margin"
+        android:textSize="@dimen/reservationTitleTextSize" />
 
     <FrameLayout
         android:layout_width="match_parent"
