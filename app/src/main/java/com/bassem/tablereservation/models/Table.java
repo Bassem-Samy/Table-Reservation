@@ -1,10 +1,14 @@
 package com.bassem.tablereservation.models;
 
+import io.realm.RealmModel;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by Bassem Samy on 4/22/2017.
  */
 
-public class Table {
+public class Table implements RealmModel{
+    @PrimaryKey
     private int id;
 
     public int getId() {

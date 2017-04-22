@@ -6,6 +6,8 @@ import android.os.Bundle;
 import com.bassem.tablereservation.R;
 import com.bassem.tablereservation.ui.customerslisting.CustomersFragment;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity implements CustomersFragment.OnCustomersFragmentInteractionListener {
 
     @Override
@@ -26,5 +28,11 @@ public class MainActivity extends AppCompatActivity implements CustomersFragment
     @Override
     public void onCustomerClicked() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Realm.getDefaultInstance().close();
     }
 }

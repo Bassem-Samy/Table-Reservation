@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bassem.tablereservation.R;
 import com.bassem.tablereservation.models.Customer;
-import com.bassem.tablereservation.models.CustomerDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +21,11 @@ import butterknife.ButterKnife;
  */
 
 public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.ViewHolder> {
-    private List<CustomerDataModel> mDataset;
-    private ArrayList<CustomerDataModel> mFilteredDataset;
+    private List<Customer> mDataset;
+    private ArrayList<Customer> mFilteredDataset;
     private View.OnClickListener mOnClickListener;
 
-    public CustomersAdapter(List<CustomerDataModel> items, View.OnClickListener onClickListener) {
+    public CustomersAdapter(List<Customer> items, View.OnClickListener onClickListener) {
         mDataset = items;
         mFilteredDataset = new ArrayList<>(items);
         mOnClickListener = onClickListener;
@@ -56,14 +55,14 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.View
         return 0;
     }
 
-    public CustomerDataModel getItemByPosition(int position) {
+    public Customer getItemByPosition(int position) {
         if (mFilteredDataset != null) {
             return mFilteredDataset.get(position);
         }
         return null;
     }
 
-    public void setItems(List<CustomerDataModel> items) {
+    public void setItems(List<Customer> items) {
         mDataset = items;
         mFilteredDataset.clear();
         mFilteredDataset.addAll(mDataset);
@@ -75,7 +74,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.View
         if (TextUtils.isEmpty(filterText)) {
             mFilteredDataset.addAll(mDataset);
         } else {
-            for (CustomerDataModel customer : mDataset
+            for (Customer customer : mDataset
                     ) {
                 if (customer.isInFilter(filterText)) {
                     mFilteredDataset.add(customer);

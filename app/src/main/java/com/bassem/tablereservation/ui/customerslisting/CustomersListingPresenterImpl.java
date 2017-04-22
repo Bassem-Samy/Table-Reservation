@@ -1,7 +1,6 @@
 package com.bassem.tablereservation.ui.customerslisting;
 
 import com.bassem.tablereservation.models.Customer;
-import com.bassem.tablereservation.models.CustomerDataModel;
 
 import java.util.List;
 
@@ -32,16 +31,16 @@ public class CustomersListingPresenterImpl implements CustomersListingPresenter 
         mDisposable = mInteractor.getCustomers().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        new Consumer<List<CustomerDataModel>>() {
+                        new Consumer<List<Customer>>() {
                             @Override
-                            public void accept(List<CustomerDataModel> customers) throws Exception {
+                            public void accept(List<Customer> customers) throws Exception {
                                 dataUpdated(customers);
                             }
                         }
                         , new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-                                showServiceError();
+                                errorInService();
                             }
                         });
     }
@@ -63,18 +62,25 @@ public class CustomersListingPresenterImpl implements CustomersListingPresenter 
      *
      * @param customers list returned
      */
-    private void dataUpdated(List<CustomerDataModel> customers) {
+    private void dataUpdated(List<Customer> customers) {
         mView.hideProgress();
-
+        mInteractor.insertOrUpdateCustomers(customers);
         mView.updateData(customers);
     }
 
     /**
      * called when an error happens in the api
      */
-    private void showServiceError() {
+    private void errorInService() {
         mView.hideProgress();
-        mView.showError();
 
+        // try to get offline data if exists
+        List<Customer> items = mInteractor.getCustomersFromDatabase();
+        if (items.size() > 0) {
+            mView.showGotOfflineData();
+            mView.updateData(items);
+        } else {
+            mView.showError();
+        }
     }
 }

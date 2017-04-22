@@ -14,13 +14,15 @@ import android.widget.Toast;
 
 import com.bassem.tablereservation.R;
 import com.bassem.tablereservation.adapters.CustomersAdapter;
-import com.bassem.tablereservation.models.CustomerDataModel;
+import com.bassem.tablereservation.database.DatabaseHelper;
+import com.bassem.tablereservation.models.Customer;
 
 import java.util.List;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * A Fragment That displays list of customers
@@ -35,6 +37,8 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
     private OnCustomersFragmentInteractionListener mListener;
     @BindString(R.string.general_error)
     String generalError;
+    @BindString(R.string.got_offline_data)
+    String gotOfflineData;
     CustomersListingPresenter mPresenter;
     CustomersAdapter mAdapter;
     LinearLayoutManager mLinearLayoutManager;
@@ -67,7 +71,7 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPresenter = new CustomersListingPresenterImpl(this, new CustomersListingInteractorImpl());
+        mPresenter = new CustomersListingPresenterImpl(this, new CustomersListingInteractorImpl(new DatabaseHelper(Realm.getDefaultInstance())));
         mPresenter.getCustomers();
     }
 
@@ -89,7 +93,7 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
     }
 
     @Override
-    public void updateData(List<CustomerDataModel> items) {
+    public void updateData(List<Customer> items) {
         if (mAdapter == null) {
             mAdapter = new CustomersAdapter(items, mOnCustomerClickListener);
             customersRecyclerView.setAdapter(mAdapter);
@@ -119,6 +123,11 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
         Toast.makeText(getContext(), generalError, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void showGotOfflineData() {
+        Toast.makeText(getContext(), gotOfflineData, Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -132,7 +141,7 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
         @Override
         public void onClick(View view) {
             int position = customersRecyclerView.getChildAdapterPosition(view);
-            CustomerDataModel model = mAdapter.getItemByPosition(position);
+            Customer model = mAdapter.getItemByPosition(position);
             Toast.makeText(getContext(), model.getFullName(), Toast.LENGTH_SHORT).show();
             if (mListener != null) {
                 mListener.onCustomerClicked();

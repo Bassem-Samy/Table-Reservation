@@ -1,12 +1,15 @@
 package com.bassem.tablereservation.ui.customerslisting;
 
-import com.bassem.tablereservation.models.CustomerDataModel;
+import com.bassem.tablereservation.database.DatabaseHelper;
+import com.bassem.tablereservation.models.Customer;
 import com.bassem.tablereservation.network.CustomersService;
 import com.bassem.tablereservation.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
+import io.realm.Realm;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,9 +21,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CustomersListingInteractorImpl implements CustomersListingInteractor {
     Retrofit retrofit;
     CustomersService customersService;
+    Realm mRealm;
+    DatabaseHelper mDatabaseHelper;
+
+    public CustomersListingInteractorImpl(DatabaseHelper databaseHelper) {
+        mDatabaseHelper = databaseHelper;
+
+    }
 
     @Override
-    public Single<List<CustomerDataModel>> getCustomers() {
+    public Single<List<Customer>> getCustomers() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().baseUrl(Constants.SERVICE_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -29,5 +39,23 @@ public class CustomersListingInteractorImpl implements CustomersListingInteracto
             customersService = retrofit.create(CustomersService.class);
         }
         return customersService.getCustomers();
+    }
+
+    @Override
+    public boolean insertOrUpdateCustomers(List<Customer> items) {
+        List<Customer> customers = new ArrayList<>();
+        customers.addAll(items);
+        return mDatabaseHelper.insertOrUpdateCustomers(customers);
+    }
+
+    @Override
+    public boolean dropCustomers() {
+        return mDatabaseHelper.dropCustomers();
+    }
+
+    @Override
+    public List<Customer> getCustomersFromDatabase() {
+
+        return mDatabaseHelper.getAllCustomers();
     }
 }
