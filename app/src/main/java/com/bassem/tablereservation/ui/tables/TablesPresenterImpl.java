@@ -25,6 +25,7 @@ public class TablesPresenterImpl implements TablesPresenter {
 
     @Override
     public void getCustomers() {
+        mView.showProgress();
         disposeService();
         mDisposable = mInteractor.getTablesFromApi().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

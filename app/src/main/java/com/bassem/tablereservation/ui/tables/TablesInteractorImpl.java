@@ -23,6 +23,10 @@ public class TablesInteractorImpl implements TablesInteractor {
     TablesService tablesService;
     DatabaseHelper mDatabaseHelper;
 
+    public TablesInteractorImpl(DatabaseHelper databaseHelper) {
+        mDatabaseHelper = databaseHelper;
+    }
+
     @Override
     public Single<List<Boolean>> getTablesFromApi() {
         if (retrofit == null) {

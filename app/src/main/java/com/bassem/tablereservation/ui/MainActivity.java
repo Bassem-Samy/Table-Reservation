@@ -1,14 +1,16 @@
 package com.bassem.tablereservation.ui;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.bassem.tablereservation.R;
 import com.bassem.tablereservation.ui.customerslisting.CustomersFragment;
+import com.bassem.tablereservation.ui.tables.TablesFragment;
 
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity implements CustomersFragment.OnCustomersFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements CustomersFragment.OnCustomersFragmentInteractionListener, TablesFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,11 @@ public class MainActivity extends AppCompatActivity implements CustomersFragment
 
     @Override
     public void onCustomerClicked() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frm_container, TablesFragment.newInstance("Bassem"), TablesFragment.TAG)
+                .addToBackStack(null)
+                .commit();
 
     }
 
@@ -34,5 +41,10 @@ public class MainActivity extends AppCompatActivity implements CustomersFragment
     protected void onDestroy() {
         super.onDestroy();
         Realm.getDefaultInstance().close();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

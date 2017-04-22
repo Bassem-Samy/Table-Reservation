@@ -7,4 +7,9 @@
     <dimen name="customer_item_vertical_margin">5dp</dimen>
     <dimen name="horizontal_progress_bar_padding_top">-7dp</dimen>
     <dimen name="customers_listing_fragment_horizontal_padding">15dp</dimen>
+    <dimen name="tableCellTextSize">14sp</dimen>
+
+    <dimen name="table_cell_width">65dp</dimen>
+    <dimen name="table_cell_height">65dp</dimen>
+    <dimen name="table_cell_margin">5dp</dimen>
 </resources>

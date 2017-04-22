@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMainBakground"
     android:orientation="vertical"
     android:paddingLeft="@dimen/customers_listing_fragment_horizontal_padding"
     android:paddingRight="@dimen/customers_listing_fragment_horizontal_padding"
