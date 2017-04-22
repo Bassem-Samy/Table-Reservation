@@ -1,6 +1,6 @@
 package com.bassem.tablereservation.ui.customerslisting;
 
-import com.bassem.tablereservation.models.Customer;
+import com.bassem.tablereservation.models.CustomerDataModel;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ import io.reactivex.Single;
  */
 
 public interface CustomersListingInteractor {
-    Single<List<Customer>> getCustomers();
+    Single<List<CustomerDataModel>> getCustomers();
 }

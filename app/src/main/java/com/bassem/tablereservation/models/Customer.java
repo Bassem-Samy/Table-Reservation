@@ -2,11 +2,18 @@ package com.bassem.tablereservation.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+
 /**
  * Created by Bassem Samy on 4/22/2017.
+ * class for customer that holds it's fields from the api and to be stored in the db
  */
 
-public class Customer {
+public  class Customer implements RealmModel {
+    public Customer() {
+    }
+
     @SerializedName("id")
     private String id;
     @SerializedName("customerFirstName")
@@ -37,4 +44,5 @@ public class Customer {
     public void setCustomerLastName(String customerLastName) {
         this.customerLastName = customerLastName;
     }
+
 }

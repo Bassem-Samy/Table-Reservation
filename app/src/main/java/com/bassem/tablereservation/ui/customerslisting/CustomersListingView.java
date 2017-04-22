@@ -1,6 +1,7 @@
 package com.bassem.tablereservation.ui.customerslisting;
 
 import com.bassem.tablereservation.models.Customer;
+import com.bassem.tablereservation.models.CustomerDataModel;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface CustomersListingView {
 
-    void updateData(List<Customer> items);
+    void updateData(List<CustomerDataModel> items);
     void showProgress();
     void hideProgress();
     void showError();

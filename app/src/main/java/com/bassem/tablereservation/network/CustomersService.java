@@ -1,6 +1,7 @@
 package com.bassem.tablereservation.network;
 
 import com.bassem.tablereservation.models.Customer;
+import com.bassem.tablereservation.models.CustomerDataModel;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ import retrofit2.http.GET;
 
 public interface CustomersService {
     @GET("customer-list.json")
-    Single<List<Customer>> getCustomers();
+    Single<List<CustomerDataModel>> getCustomers();
 }

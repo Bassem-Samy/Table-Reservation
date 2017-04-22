@@ -1,6 +1,6 @@
 package com.bassem.tablereservation.ui.customerslisting;
 
-import com.bassem.tablereservation.models.Customer;
+import com.bassem.tablereservation.models.CustomerDataModel;
 import com.bassem.tablereservation.network.CustomersService;
 import com.bassem.tablereservation.utils.Constants;
 
@@ -20,7 +20,7 @@ public class CustomersListingInteractorImpl implements CustomersListingInteracto
     CustomersService customersService;
 
     @Override
-    public Single<List<Customer>> getCustomers() {
+    public Single<List<CustomerDataModel>> getCustomers() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().baseUrl(Constants.SERVICE_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())

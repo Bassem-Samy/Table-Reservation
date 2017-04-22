@@ -1,6 +1,7 @@
 package com.bassem.tablereservation.ui.customerslisting;
 
 import com.bassem.tablereservation.models.Customer;
+import com.bassem.tablereservation.models.CustomerDataModel;
 
 import java.util.List;
 
@@ -26,13 +27,14 @@ public class CustomersListingPresenterImpl implements CustomersListingPresenter 
 
     @Override
     public void getCustomers() {
+        mView.showProgress();
         disposeService();
         mDisposable = mInteractor.getCustomers().subscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        new Consumer<List<Customer>>() {
+                        new Consumer<List<CustomerDataModel>>() {
                             @Override
-                            public void accept(List<Customer> customers) throws Exception {
+                            public void accept(List<CustomerDataModel> customers) throws Exception {
                                 dataUpdated(customers);
                             }
                         }
@@ -61,8 +63,9 @@ public class CustomersListingPresenterImpl implements CustomersListingPresenter 
      *
      * @param customers list returned
      */
-    private void dataUpdated(List<Customer> customers) {
+    private void dataUpdated(List<CustomerDataModel> customers) {
         mView.hideProgress();
+
         mView.updateData(customers);
     }
 
