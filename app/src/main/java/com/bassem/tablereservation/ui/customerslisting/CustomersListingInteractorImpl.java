@@ -21,7 +21,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CustomersListingInteractorImpl implements CustomersListingInteractor {
     Retrofit retrofit;
     CustomersService customersService;
-    Realm mRealm;
     DatabaseHelper mDatabaseHelper;
 
     public CustomersListingInteractorImpl(DatabaseHelper databaseHelper) {
@@ -43,9 +42,7 @@ public class CustomersListingInteractorImpl implements CustomersListingInteracto
 
     @Override
     public boolean insertOrUpdateCustomers(List<Customer> items) {
-        List<Customer> customers = new ArrayList<>();
-        customers.addAll(items);
-        return mDatabaseHelper.insertOrUpdateCustomers(customers);
+        return mDatabaseHelper.insertOrUpdateCustomers(items);
     }
 
     @Override

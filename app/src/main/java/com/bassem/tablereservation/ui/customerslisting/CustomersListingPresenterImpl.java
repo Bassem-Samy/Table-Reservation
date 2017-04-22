@@ -64,6 +64,7 @@ public class CustomersListingPresenterImpl implements CustomersListingPresenter 
      */
     private void dataUpdated(List<Customer> customers) {
         mView.hideProgress();
+        mInteractor.dropCustomers();
         mInteractor.insertOrUpdateCustomers(customers);
         mView.updateData(customers);
     }
