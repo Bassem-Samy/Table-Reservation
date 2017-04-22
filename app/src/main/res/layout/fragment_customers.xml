@@ -3,7 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="@dimen/customers_listing_fragment_horizontal_padding"
+    android:paddingRight="@dimen/customers_listing_fragment_horizontal_padding"
     tools:context="com.bassem.tablereservation.ui.customerslisting.CustomersFragment">
+
+
+    <EditText
+        android:id="@+id/edt_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/filter_customers" />
+
+    <ProgressBar
+        android:id="@+id/prgrs_filter"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/horizontal_progress_bar_padding_top"
+        android:indeterminate="true"
+        android:visibility="invisible" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -19,9 +38,9 @@
 
         <ProgressBar
             android:id="@+id/prgrs_main"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </FrameLayout>
 </LinearLayout>
