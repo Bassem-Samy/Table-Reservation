@@ -6,7 +6,7 @@ import io.reactivex.Single;
 import retrofit2.http.GET;
 
 /**
- * Created by Mina Samy on 4/22/2017.
+ * Created by Bassem Samy on 4/22/2017.
  */
 
 public interface TablesService {

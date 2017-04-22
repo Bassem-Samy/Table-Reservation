@@ -1,10 +1,11 @@
 package com.bassem.tablereservation.models;
 
 /**
- * Created by Mina Samy on 4/22/2017.
+ * Created by Bassem Samy on 4/22/2017.
  */
 
 public class Table {
+    private int id;
 
     public int getId() {
         return id;
@@ -14,15 +15,14 @@ public class Table {
         this.id = id;
     }
 
-    private int id;
+    private boolean available;
 
-    public boolean isReserved() {
-        return isReserved;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setReserved(boolean reserved) {
-        isReserved = reserved;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
-    private boolean isReserved;
 }

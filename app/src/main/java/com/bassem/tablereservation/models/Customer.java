@@ -3,7 +3,7 @@ package com.bassem.tablereservation.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Mina Samy on 4/22/2017.
+ * Created by Bassem Samy on 4/22/2017.
  */
 
 public class Customer {
