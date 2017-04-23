@@ -16,6 +16,7 @@ public interface TablesInteractor {
     List<Table> getTablesFromApiResponse(List<Boolean> items);
 
     boolean insertOrUpdateTables(List<Table> items);
+    boolean insertOrUpdateTableItem(Table item);
 
     boolean dropTables();
 

@@ -7,4 +7,6 @@
     <string name="got_offline_data">Got offline data</string>
     <string name="filter_customers">Filter Customers</string>
     <string name="reserve_table_for">Reserve a table for</string>
+    <string name="reservation_cancel">Reservation is canceled</string>
+    <string name="table_reserved">Table reserved</string>
 </resources>

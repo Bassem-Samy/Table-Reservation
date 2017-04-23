@@ -111,5 +111,16 @@ public class DatabaseHelper implements DatabaseOperations {
         return false;
     }
 
-
+    @Override
+    public boolean insertOrUpdateTableItem(Table item) {
+        try {
+            mRealm.beginTransaction();
+            mRealm.insertOrUpdate(item);
+            mRealm.commitTransaction();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

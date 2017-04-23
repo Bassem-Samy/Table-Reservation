@@ -77,6 +77,22 @@ public class TablesPresenterImpl implements TablesPresenter {
 
     }
 
+    @Override
+    public void updateTableReservation(Table selectedTable) {
+        if (selectedTable.isOriginallyAvailable()) {
+            if (selectedTable.isAvailable()) {
+                // reserve
+                selectedTable.setAvailable(false);
+            } else {
+                //cancel reservation
+                selectedTable.setAvailable(true);
+            }
+            mView.showTableUpdated(selectedTable.isAvailable());
+            mInteractor.insertOrUpdateTableItem(selectedTable);
+
+        }
+    }
+
     void disposeService() {
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();

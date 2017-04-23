@@ -11,7 +11,8 @@ import io.realm.annotations.RealmClass;
  * Created by Bassem Samy on 4/22/2017.
  * class for customer that holds it's fields from the api and to be stored in the db
  */
-public class Customer extends RealmObject{
+public class Customer extends RealmObject {
+    // required for realm
     public Customer() {
     }
 
@@ -22,6 +23,12 @@ public class Customer extends RealmObject{
     private String customerFirstName;
     @SerializedName("customerLastName")
     private String customerLastName;
+
+    public Customer(Customer c) {
+        this.id = c.id;
+        this.customerFirstName = c.customerFirstName;
+        this.customerLastName = c.customerLastName;
+    }
 
 
     public String getId() {

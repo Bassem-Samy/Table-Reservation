@@ -38,6 +38,10 @@ public class TablesFragment extends Fragment implements TablesView {
     private String mCustomerName;
     private OnFragmentInteractionListener mListener;
     TablesAdapter mAdapter;
+    @BindString(R.string.table_reserved)
+    String tableReserved;
+    @BindString(R.string.reservation_cancel)
+    String reservationCanceled;
     @BindString(R.string.general_error)
     String generalError;
     @BindString(R.string.got_offline_data)
@@ -87,7 +91,7 @@ public class TablesFragment extends Fragment implements TablesView {
         super.onActivityCreated(savedInstanceState);
         mPresenter = new TablesPresenterImpl(this, new TablesInteractorImpl(new DatabaseHelper(Realm.getDefaultInstance())));
         mPresenter.getCustomers();
-        forCustomerTextView.setText(reserveTableFor+" "+mCustomerName);
+        forCustomerTextView.setText(reserveTableFor + " " + mCustomerName);
     }
 
     @Override
@@ -145,12 +149,21 @@ public class TablesFragment extends Fragment implements TablesView {
 
     @Override
     public void showError() {
-        Toast.makeText(getContext(), generalError, Toast.LENGTH_SHORT).show();
+        showShortToast(generalError);
     }
 
     @Override
     public void showGotOfflineData() {
-        Toast.makeText(getContext(), gotOfflineData, Toast.LENGTH_SHORT).show();
+        showShortToast(gotOfflineData);
+    }
+
+    @Override
+    public void showTableUpdated(boolean available) {
+        if (available) {
+            showShortToast(reservationCanceled);
+        } else {
+            showShortToast(tableReserved);
+        }
     }
 
     /**
@@ -163,10 +176,17 @@ public class TablesFragment extends Fragment implements TablesView {
         void onFragmentInteraction(Uri uri);
     }
 
+    private void showShortToast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
     View.OnClickListener mOnTableClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            int position = tablesRecyclerView.getChildLayoutPosition(view);
+            Table selectedTable = mAdapter.getItemByPosition(position);
+            mPresenter.updateTableReservation(selectedTable);
+            mAdapter.notifyItemChanged(position);
         }
     };
 }

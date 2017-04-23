@@ -14,4 +14,6 @@ public interface TablesView {
     void hideProgress();
     void showError();
     void showGotOfflineData();
+
+    void showTableUpdated(boolean available);
 }

@@ -58,6 +58,12 @@ public class TablesInteractorImpl implements TablesInteractor {
     }
 
     @Override
+    public boolean insertOrUpdateTableItem(Table item) {
+      //  return mDatabaseHelper.insertOrUpdateTableItem(item);
+        return mDatabaseHelper.setTableAvailable(item.getId(),item.isAvailable());
+    }
+
+    @Override
     public boolean dropTables() {
         return mDatabaseHelper.dropTables();
     }
@@ -65,6 +71,13 @@ public class TablesInteractorImpl implements TablesInteractor {
     @Override
     public List<Table> getTablesFromDatabase() {
 
-        return mDatabaseHelper.getAllTables();
+        List<Table> offlineItems= mDatabaseHelper.getAllTables();
+        List<Table> items=new ArrayList<>();
+        // avoid realm transaction limitation
+        for (Table t:offlineItems
+             ) {
+            items.add(new Table(t));
+        }
+        return items;
     }
 }

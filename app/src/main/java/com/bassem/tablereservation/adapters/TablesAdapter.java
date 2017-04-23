@@ -60,6 +60,13 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
         return 0;
     }
 
+    public Table getItemByPosition(int pos) {
+        if (mDataset != null) {
+            return mDataset.get(pos);
+        }
+        return null;
+    }
+
     public void setItems(List<Table> items) {
         if (mDataset != null) {
             mDataset.clear();

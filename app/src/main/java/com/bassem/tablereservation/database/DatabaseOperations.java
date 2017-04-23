@@ -24,4 +24,6 @@ public interface DatabaseOperations {
     List<Table> getAllTables();
 
     boolean setTableAvailable(int id,boolean isAvailable);
+
+    boolean insertOrUpdateTableItem(Table item);
 }

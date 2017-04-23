@@ -53,6 +53,12 @@ public class CustomersListingInteractorImpl implements CustomersListingInteracto
     @Override
     public List<Customer> getCustomersFromDatabase() {
 
-        return mDatabaseHelper.getAllCustomers();
+        List<Customer> offlineItems = mDatabaseHelper.getAllCustomers();
+        ArrayList<Customer> items = new ArrayList<>();
+        for (Customer c : offlineItems
+                ) {
+            items.add(new Customer(c));
+        }
+        return items;
     }
 }

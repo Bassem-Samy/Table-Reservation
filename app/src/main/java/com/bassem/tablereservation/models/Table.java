@@ -12,6 +12,7 @@ public class Table extends RealmObject {
     @PrimaryKey
     private int id;
 
+    // required for realm
     public Table() {
     }
 
@@ -19,6 +20,12 @@ public class Table extends RealmObject {
         this.id = id;
         setAvailable(val);
         setOriginallyAvailable(val);
+    }
+
+    public Table(Table t) {
+        this.id = t.id;
+        this.available = t.available;
+        this.isOriginallyAvailable = t.isOriginallyAvailable;
     }
 
     public int getId() {
