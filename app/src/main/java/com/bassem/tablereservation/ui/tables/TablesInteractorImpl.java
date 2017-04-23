@@ -15,7 +15,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Mina Samy on 4/22/2017.
+ * Created by Bassem Samy on 4/22/2017.
  */
 
 public class TablesInteractorImpl implements TablesInteractor {

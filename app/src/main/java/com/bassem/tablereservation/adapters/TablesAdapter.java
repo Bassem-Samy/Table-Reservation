@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by Mina Samy on 4/22/2017.
+ * Created by Bassem Samy on 4/22/2017.
  */
 
 public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder> {

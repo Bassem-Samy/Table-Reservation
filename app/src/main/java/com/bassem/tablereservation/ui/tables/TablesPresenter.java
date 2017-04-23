@@ -3,7 +3,7 @@ package com.bassem.tablereservation.ui.tables;
 import com.bassem.tablereservation.models.Table;
 
 /**
- * Created by Mina Samy on 4/22/2017.
+ * Created by Bassem Samy on 4/22/2017.
  */
 
 public interface TablesPresenter {
