@@ -9,4 +9,5 @@
     <string name="reserve_table_for">Reserve a table for</string>
     <string name="reservation_cancel">Reservation is canceled</string>
     <string name="table_reserved">Table reserved</string>
+    <string name="data_updated_from_service">Updated data from background service</string>
 </resources>

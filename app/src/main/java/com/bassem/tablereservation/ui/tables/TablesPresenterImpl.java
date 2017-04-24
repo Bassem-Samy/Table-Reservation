@@ -25,7 +25,7 @@ public class TablesPresenterImpl implements TablesPresenter {
     }
 
     @Override
-    public void getCustomers() {
+    public void getTables() {
         mView.showProgress();
         disposeService();
         mDisposable = mInteractor.getTablesFromApi().subscribeOn(Schedulers.io())
@@ -65,7 +65,7 @@ public class TablesPresenterImpl implements TablesPresenter {
         mInteractor.insertOrUpdateTables(tables);
         mView.updateData(tables);
         mView.hideProgress();
-        UpdateTablesInBackgroundHelper helper=new UpdateTablesInBackgroundHelper();
+        UpdateTablesInBackgroundHelper helper = new UpdateTablesInBackgroundHelper();
 
     }
 
@@ -92,6 +92,15 @@ public class TablesPresenterImpl implements TablesPresenter {
             mView.showTableUpdated(selectedTable.isAvailable());
             mInteractor.insertOrUpdateTableItem(selectedTable);
 
+        }
+    }
+
+    @Override
+    public void getTablesAfterServiceUpdate() {
+        List<Table> items = mInteractor.getTablesFromDatabase();
+        if (items != null && items.size() > 0) {
+            mView.showUpdatedDataFromService();
+            mView.updateData(items);
         }
     }
 

@@ -16,4 +16,6 @@ public interface TablesView {
     void showGotOfflineData();
 
     void showTableUpdated(boolean available);
+
+    void showUpdatedDataFromService();
 }

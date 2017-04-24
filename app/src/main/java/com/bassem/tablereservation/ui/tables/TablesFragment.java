@@ -1,10 +1,14 @@
 package com.bassem.tablereservation.ui.tables;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import com.bassem.tablereservation.R;
 import com.bassem.tablereservation.adapters.TablesAdapter;
+import com.bassem.tablereservation.background.UpdateTablesIntentService;
 import com.bassem.tablereservation.database.DatabaseHelper;
 import com.bassem.tablereservation.models.Table;
 
@@ -48,6 +53,8 @@ public class TablesFragment extends Fragment implements TablesView {
     String gotOfflineData;
     @BindString(R.string.reserve_table_for)
     String reserveTableFor;
+    @BindString(R.string.data_updated_from_service)
+    String updatedDataFromBackgroundService;
     @BindView(R.id.prgrs_tables)
     ProgressBar tablesProgressBar;
     @BindView(R.id.rclr_tables)
@@ -57,6 +64,10 @@ public class TablesFragment extends Fragment implements TablesView {
     @BindInt(R.integer.tables_column_span_count)
     int columnSpanCount;
     GridLayoutManager mGridLayoutManager;
+    private BroadcastReceiver tablesUpdatedBraodCastReceiver;
+    private IntentFilter mFilter;
+    public boolean isLoading = false;
+
 
     public TablesFragment() {
         // Required empty public constructor
@@ -90,8 +101,9 @@ public class TablesFragment extends Fragment implements TablesView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter = new TablesPresenterImpl(this, new TablesInteractorImpl(new DatabaseHelper(Realm.getDefaultInstance())));
-        mPresenter.getCustomers();
+        mPresenter.getTables();
         forCustomerTextView.setText(reserveTableFor + " " + mCustomerName);
+        registerTablesUbdatedReceiver();
     }
 
     @Override
@@ -139,11 +151,13 @@ public class TablesFragment extends Fragment implements TablesView {
 
     @Override
     public void showProgress() {
+        isLoading = true;
         tablesProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
+        isLoading = false;
         tablesProgressBar.setVisibility(View.GONE);
     }
 
@@ -165,6 +179,12 @@ public class TablesFragment extends Fragment implements TablesView {
             showShortToast(tableReserved);
         }
     }
+
+    @Override
+    public void showUpdatedDataFromService() {
+        showShortToast(updatedDataFromBackgroundService);
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -189,4 +209,37 @@ public class TablesFragment extends Fragment implements TablesView {
             mAdapter.notifyItemChanged(position);
         }
     };
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+        }
+
+        if (tablesUpdatedBraodCastReceiver != null) {
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(tablesUpdatedBraodCastReceiver);
+        }
+    }
+
+
+    void registerTablesUbdatedReceiver() {
+        tablesUpdatedBraodCastReceiver = new BroadcastReceiver() {
+
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (!isLoading) {
+                    mPresenter.getTablesAfterServiceUpdate();
+                }
+            }
+        };
+        if (mFilter == null) {
+            mFilter = new IntentFilter(UpdateTablesIntentService.ACTION);
+        }
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(tablesUpdatedBraodCastReceiver, mFilter);
+
+    }
+
 }
