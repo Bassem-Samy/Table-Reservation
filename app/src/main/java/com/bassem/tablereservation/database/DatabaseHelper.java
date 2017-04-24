@@ -123,4 +123,22 @@ public class DatabaseHelper implements DatabaseOperations {
         }
         return false;
     }
+
+    @Override
+    public boolean setAllTablesReserved() {
+        try {
+            mRealm.beginTransaction();
+            List<Table> tables = mRealm.where(Table.class).equalTo("isOriginallyAvailable", true).findAll();
+            for (Table t : tables
+                    ) {
+                t.setOriginallyAvailable(false);
+                t.setAvailable(false);
+            }
+            mRealm.commitTransaction();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

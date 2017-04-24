@@ -26,4 +26,6 @@ public interface DatabaseOperations {
     boolean setTableAvailable(int id,boolean isAvailable);
 
     boolean insertOrUpdateTableItem(Table item);
+
+    boolean setAllTablesReserved();
 }

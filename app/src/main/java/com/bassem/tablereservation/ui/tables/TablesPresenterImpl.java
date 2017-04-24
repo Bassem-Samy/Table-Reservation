@@ -1,5 +1,6 @@
 package com.bassem.tablereservation.ui.tables;
 
+import com.bassem.tablereservation.background.UpdateTablesInBackgroundHelper;
 import com.bassem.tablereservation.models.Table;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class TablesPresenterImpl implements TablesPresenter {
         mInteractor.insertOrUpdateTables(tables);
         mView.updateData(tables);
         mView.hideProgress();
+        UpdateTablesInBackgroundHelper helper=new UpdateTablesInBackgroundHelper();
 
     }
 
