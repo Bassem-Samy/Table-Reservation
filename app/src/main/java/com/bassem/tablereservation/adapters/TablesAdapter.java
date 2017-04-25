@@ -1,5 +1,6 @@
 package com.bassem.tablereservation.adapters;
 
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,6 +75,10 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
         } else {
             mDataset = new ArrayList<>(items);
         }
+    }
+
+    public ArrayList<Table> getItems() {
+        return mDataset;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

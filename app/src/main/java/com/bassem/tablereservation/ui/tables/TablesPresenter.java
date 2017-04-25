@@ -14,4 +14,8 @@ public interface TablesPresenter {
     void updateTableReservation(Table selectedTable);
 
     void getTablesAfterServiceUpdate();
+
+    int  getTablesFromDatabase();
+
+
 }

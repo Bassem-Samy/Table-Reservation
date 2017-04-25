@@ -39,8 +39,11 @@ import io.realm.Realm;
 public class TablesFragment extends Fragment implements TablesView {
     public static final String TAG = "tables_fragment";
     private static final String ARG_CUSTOMER_NAME = "customer_name";
+    private static final String ARG_LOAD_FROM_DATABASE = "load_from_database";
+    private static final String SAVED_TABLES = "saved_tables";
     TablesPresenter mPresenter;
     private String mCustomerName;
+    private boolean mLoadFromDb;
     private OnFragmentInteractionListener mListener;
     TablesAdapter mAdapter;
     @BindString(R.string.table_reserved)
@@ -77,13 +80,14 @@ public class TablesFragment extends Fragment implements TablesView {
      * Factory method to make a new instance of the fragment
      *
      * @param customerName
+     * @param loadFromDatabase boolean to indicate whether to load tables from db ( to preserve a current run tables reservations statuses) or not
      * @return new instance of TablesFragment
      */
-    public static TablesFragment newInstance(String customerName) {
+    public static TablesFragment newInstance(String customerName, boolean loadFromDatabase) {
         TablesFragment fragment = new TablesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_CUSTOMER_NAME, customerName);
-
+        args.putBoolean(ARG_LOAD_FROM_DATABASE, loadFromDatabase);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,7 +97,7 @@ public class TablesFragment extends Fragment implements TablesView {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCustomerName = getArguments().getString(ARG_CUSTOMER_NAME);
-
+            mLoadFromDb = getArguments().getBoolean(ARG_LOAD_FROM_DATABASE, false);
         }
     }
 
@@ -101,7 +105,24 @@ public class TablesFragment extends Fragment implements TablesView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter = new TablesPresenterImpl(this, new TablesInteractorImpl(new DatabaseHelper(Realm.getDefaultInstance())));
-        mPresenter.getTables();
+        // check saved instance
+        List<Table> savedTables = null;
+        if (savedInstanceState != null) {
+            savedTables = savedInstanceState.getParcelableArrayList(SAVED_TABLES);
+        }
+        if (savedTables == null || savedTables.size() == 0) {
+            if (!mLoadFromDb) {
+                mPresenter.getTables();
+            } else {
+                int size = mPresenter.getTablesFromDatabase();
+                // check if db is already filled great!, else try api
+                if (size == 0) {
+                    mPresenter.getTables();
+                }
+            }
+        } else {
+            updateData(savedTables);
+        }
         forCustomerTextView.setText(reserveTableFor + " " + mCustomerName);
         registerTablesUbdatedReceiver();
     }
@@ -242,4 +263,9 @@ public class TablesFragment extends Fragment implements TablesView {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(SAVED_TABLES, mAdapter.getItems());
+    }
 }

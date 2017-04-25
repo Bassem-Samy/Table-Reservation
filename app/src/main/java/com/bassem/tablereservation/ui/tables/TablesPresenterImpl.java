@@ -104,6 +104,16 @@ public class TablesPresenterImpl implements TablesPresenter {
         }
     }
 
+    @Override
+    public int getTablesFromDatabase() {
+        List<Table> items = mInteractor.getTablesFromDatabase();
+        if (items != null && items.size() > 0) {
+            mView.updateData(items);
+            return items.size();
+        }
+        return 0;
+    }
+
     void disposeService() {
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();
