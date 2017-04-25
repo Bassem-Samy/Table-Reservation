@@ -13,6 +13,7 @@ import io.realm.Realm;
 
 /**
  * Created by Bassem Samy on 4/24/2017.
+ * An intent service that updates tables in database ( if any ) to be reserved
  */
 
 public class UpdateTablesIntentService extends IntentService {
@@ -35,6 +36,7 @@ public class UpdateTablesIntentService extends IntentService {
         DatabaseOperations databaseHelper = new DatabaseHelper(realm);
         boolean successful = databaseHelper.setAllTablesReserved();
         Log.e("service", "successfull: " + Boolean.toString(successful));
+        // broadcast that the db is updated so if a UI listens then update it's items
         if (successful) {
             Intent notifyUIIntent = new Intent(ACTION);
             notifyUIIntent.putExtra(RESULT_CODE, Activity.RESULT_OK);

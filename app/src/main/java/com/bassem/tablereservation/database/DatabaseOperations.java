@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by Bassem Samy on 4/22/2017.
+ * interface with the needed database operations
  */
 
 public interface DatabaseOperations {

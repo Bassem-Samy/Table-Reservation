@@ -11,7 +11,7 @@ import com.bassem.tablereservation.ui.tables.TablesFragment;
 
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity implements CustomersFragment.OnCustomersFragmentInteractionListener, TablesFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements CustomersFragment.OnCustomersFragmentInteractionListener {
     boolean loadTablesFromDatabase;
     private static final String SAVE_LOAD_TABLES_FROM_DATABASE = "save_load_tables_from_database";
 
@@ -19,16 +19,10 @@ public class MainActivity extends AppCompatActivity implements CustomersFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // load customers fragment
         addCustomersFragment();
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            loadTablesFromDatabase = savedInstanceState.getBoolean(SAVE_LOAD_TABLES_FROM_DATABASE, false);
-        }
-    }
 
     void addCustomersFragment() {
         if (getSupportFragmentManager().findFragmentByTag(CustomersFragment.TAG) == null) {
@@ -55,14 +49,19 @@ public class MainActivity extends AppCompatActivity implements CustomersFragment
         Realm.getDefaultInstance().close();
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
-    }
-
+// save and restore a flag that indicates if tables data were get from api once in the app ( to preserve a session of table reservations through an app run)
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVE_LOAD_TABLES_FROM_DATABASE, loadTablesFromDatabase);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            loadTablesFromDatabase = savedInstanceState.getBoolean(SAVE_LOAD_TABLES_FROM_DATABASE, false);
+        }
     }
 }

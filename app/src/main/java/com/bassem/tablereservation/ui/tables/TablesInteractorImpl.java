@@ -39,7 +39,11 @@ public class TablesInteractorImpl implements TablesInteractor {
         return tablesService.getTables();
     }
 
-
+    /**
+     * creates table items from the boolean array returned from the api
+     * @param items
+     * @return
+     */
     @Override
     public List<Table> getTablesFromApiResponse(List<Boolean> items) {
         ArrayList<Table> tables = new ArrayList<>();

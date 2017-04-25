@@ -61,10 +61,16 @@ public class MainActivityTest {
 
     }
 
+    /**
+     * Tests that the recycler view displays (mocked) data correctly
+     */
     @Test
     public void checkCustomers() {
+        // test number of items displayed
         onView(withId(R.id.rclr_customers)).check(new RecyclerViewItemsCountAssertion(EXPECTED_ITEMS_COUNT));
+        // scroll to last item
         onView(withId(R.id.rclr_customers)).perform(scrollToPosition(EXPECTED_ITEMS_COUNT - 1));
+        // check if the last item is the expected  name
         onView(withId(R.id.rclr_customers)).check(new RecyclerViewItemStringDataAssertion(
                 R.id.txt_full_name,
                 LAST_ITEM_EXPECTED_FULL_NAME,

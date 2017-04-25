@@ -74,11 +74,10 @@ public class TablesPresenterImpl implements TablesPresenter {
         disposeService();
     }
 
-    @Override
-    public void updateTableAvailability(int id, boolean isAvailable) {
-
-    }
-
+    /**
+     * Update a table reservation if it's available set to reserved and vice versa
+     * @param selectedTable
+     */
     @Override
     public void updateTableReservation(Table selectedTable) {
         if (selectedTable.isOriginallyAvailable()) {
@@ -95,6 +94,9 @@ public class TablesPresenterImpl implements TablesPresenter {
         }
     }
 
+    /**
+     * called after the background service notifies the view that it has updated the tables from db
+     */
     @Override
     public void getTablesAfterServiceUpdate() {
         List<Table> items = mInteractor.getTablesFromDatabase();

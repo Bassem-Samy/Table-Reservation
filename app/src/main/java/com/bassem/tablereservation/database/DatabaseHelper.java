@@ -10,6 +10,7 @@ import io.realm.Realm;
 
 /**
  * Created by Bassem Samy on 4/22/2017.
+ * Helper class that contains DatabaseOperations interface implementations
  */
 
 public class DatabaseHelper implements DatabaseOperations {

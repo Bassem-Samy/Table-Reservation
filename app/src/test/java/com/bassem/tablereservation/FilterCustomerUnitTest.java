@@ -26,6 +26,9 @@ public class FilterCustomerUnitTest {
     private static final int SEARCH_ZERO_EXPECTED_COUNT = 0;
     List<Customer> customerList;
 
+    /**
+     * Add items to customerList
+     */
     @Before
     public void setup() {
         customerList = new ArrayList<>();
@@ -48,7 +51,9 @@ public class FilterCustomerUnitTest {
 
     }
 
-
+    /**
+     * Test filter method inside Customer objects expected results with predefined search names
+     */
     @Test
     public void testSearch() {
 
@@ -58,6 +63,11 @@ public class FilterCustomerUnitTest {
 
     }
 
+    /**
+     * loops customerList and filter it's items by certain filter text
+     * @param filter text
+     * @return
+     */
     int performFilter(String filter) {
         ArrayList<Customer> resultList = new ArrayList<>();
         for (Customer c : customerList

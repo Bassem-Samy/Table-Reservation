@@ -9,7 +9,6 @@ import com.bassem.tablereservation.models.Table;
 public interface TablesPresenter {
     void getTables();
     void onDestroy();
-    void updateTableAvailability(int id,boolean isAvailable);
 
     void updateTableReservation(Table selectedTable);
 

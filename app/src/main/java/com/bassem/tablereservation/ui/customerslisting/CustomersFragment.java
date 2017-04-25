@@ -121,6 +121,9 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
         initializeFilterTextObservables();
     }
 
+    /**
+     * Initializes an observable for filter edit text
+     */
     private void initializeFilterTextObservables() {
         filterTextChangedObservable = createFilterObservable();
         mDisposable = filterTextChangedObservable

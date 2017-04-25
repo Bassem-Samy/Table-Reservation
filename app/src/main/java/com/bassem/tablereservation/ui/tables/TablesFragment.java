@@ -44,7 +44,6 @@ public class TablesFragment extends Fragment implements TablesView {
     TablesPresenter mPresenter;
     private String mCustomerName;
     private boolean mLoadFromDb;
-    private OnFragmentInteractionListener mListener;
     TablesAdapter mAdapter;
     @BindString(R.string.table_reserved)
     String tableReserved;
@@ -137,22 +136,8 @@ public class TablesFragment extends Fragment implements TablesView {
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+
 
     @Override
     public void updateData(List<Table> items) {
@@ -207,15 +192,7 @@ public class TablesFragment extends Fragment implements TablesView {
     }
 
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity
-     */
-    public interface OnFragmentInteractionListener {
 
-        void onFragmentInteraction(Uri uri);
-    }
 
     private void showShortToast(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
