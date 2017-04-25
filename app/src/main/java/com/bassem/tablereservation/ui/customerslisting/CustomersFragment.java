@@ -2,11 +2,13 @@ package com.bassem.tablereservation.ui.customerslisting;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +47,9 @@ import io.realm.Realm;
 public class CustomersFragment extends Fragment implements CustomersListingView {
     public static final String TAG = "customers_fragment";
     private static final long FILTER_WAIT_MILLISECONDS = 500;
+    private static final String SAVED_CUSTOMERS_LIST = "saved_customers_list";
+    private static final String SAVED_LAYOUT_MANAGER_STATE = "saved_layout_manager_state";
+    private static final String SAVED_FILTER_TEXT = "saved_filter_text";
     @BindView(R.id.rclr_customers)
     RecyclerView customersRecyclerView;
     @BindView(R.id.prgrs_main)
@@ -63,6 +68,7 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
     LinearLayoutManager mLinearLayoutManager;
     Observable<String> filterTextChangedObservable;
     Disposable mDisposable;
+    Parcelable layoutManagerSavedState;
 
     public CustomersFragment() {
         // Required empty public constructor
@@ -94,9 +100,24 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        // initialize presenter
         mPresenter = new CustomersListingPresenterImpl(this, new CustomersListingInteractorImpl(new DatabaseHelper(Realm.getDefaultInstance())));
-        mPresenter.getCustomers();
+        List<Customer> savedItems = null;
+        // check for saved instance data
+        if (savedInstanceState != null) {
+            savedItems = savedInstanceState.getParcelableArrayList(SAVED_CUSTOMERS_LIST);
+            layoutManagerSavedState = savedInstanceState.getParcelable(SAVED_LAYOUT_MANAGER_STATE);
+        }
+        if (savedItems != null && savedItems.size() > 0) {
+            updateData(savedItems);
+            String filterText = savedInstanceState.getString(SAVED_FILTER_TEXT);
+            if (!TextUtils.isEmpty(filterText)) {
+                mAdapter.filter(filterText);
+            }
+
+        } else {
+            mPresenter.getCustomers();
+        }
         initializeFilterTextObservables();
     }
 
@@ -163,6 +184,9 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
         if (mLinearLayoutManager == null) {
             mLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             customersRecyclerView.setLayoutManager(mLinearLayoutManager);
+        }
+        if (layoutManagerSavedState != null) {
+            customersRecyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
         }
         mAdapter.notifyDataSetChanged();
     }
@@ -257,5 +281,19 @@ public class CustomersFragment extends Fragment implements CustomersListingView 
 
     public interface OnCustomersFragmentInteractionListener {
         void onCustomerClicked(String customerName);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mAdapter != null) {
+            if (mAdapter.getOriginalItems() != null && mAdapter.getOriginalItems().size() > 0) {
+                outState.putParcelableArrayList(SAVED_CUSTOMERS_LIST, mAdapter.getOriginalItems());
+            }
+        }
+        if (customersRecyclerView != null && customersRecyclerView.getLayoutManager() != null) {
+            outState.putParcelable(SAVED_LAYOUT_MANAGER_STATE, customersRecyclerView.getLayoutManager().onSaveInstanceState());
+        }
+        outState.putString(SAVED_FILTER_TEXT, filterEditText.getText().toString());
     }
 }

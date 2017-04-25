@@ -2,6 +2,7 @@ package com.bassem.tablereservation.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.bassem.tablereservation.R;
 import com.bassem.tablereservation.models.Customer;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,6 +72,7 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.View
     }
 
     public void filter(String filterText) {
+        Log.e("filter",filterText);
         mFilteredDataset.clear();
         if (TextUtils.isEmpty(filterText)) {
             mFilteredDataset.addAll(mDataset);
@@ -82,6 +85,10 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.View
             }
         }
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Customer> getOriginalItems() {
+        return new ArrayList<>(mDataset);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
