@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#303030</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#F5B132</color>
     <color name="tableCellTextColor">#FFFFFF</color>
     <color name="colorAvailableTable">#00E600</color>
     <color name="colorReservedTable">#D0972B</color>
