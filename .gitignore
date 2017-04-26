@@ -60,7 +60,6 @@ freeline_project_description.json
 .idea/modules.xml
 .idea/runConfigurations.xml
 gradle.properties
-gradle/wrapper/gradle-wrapper.jar
-gradle/wrapper/gradle-wrapper.properties
+
 gradlew
 gradlew.bat
