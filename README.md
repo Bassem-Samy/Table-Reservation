@@ -15,4 +15,4 @@ Table reservation system<br>
 * Added Android unit test to test MainActivity class
 * Added unit test to test filter by first/last name functionality of Customers class
 * 3rd party libraries used: retrofit2, RxJava/RxAndroid, Butterknife
-  
+* Used Realm for database storage
